@@ -7,7 +7,7 @@ const uuidv4 = require('uuid/v4');
 
 const addUser = (userObj, done) => {
     let hashedPassword = bcrypt.hashSync(userObj.password);
-    let referralString = adminObj.userName.trim().split(" ").join("");
+    let referralString = userObj.userName.trim().split(" ").join("");
     let val = Math.floor(1000 + Math.random() * 9000);
     let referralCode = referralString + val;
     let newUser = new userModel({
@@ -18,10 +18,8 @@ const addUser = (userObj, done) => {
         contact: userObj.contact,
         referralCode : referralCode
     });
-    console.log(newUser);
     newUser.save((err, savedUser) => {
         if(err) {
-            console.log("error occured at usr dao");
             return done(err);
         } else {
             // generating token
@@ -118,10 +116,10 @@ const getAllUsers = (done) => {
 };
 
 const findUserByEmail = (userEmail, done) => {
-    userModel.findOne({userEmail : userEmail}, (err,user) => {
+    userModel.find({userEmail : userEmail}, (err,user) => {
         if(err) {
             return done(err);
-        } else if(!user) {
+        } else if(user.length==0) {
             let err = new Error('No user found!');
             return done(err);
         } else {
@@ -131,10 +129,11 @@ const findUserByEmail = (userEmail, done) => {
 }
 
 const findUserByContactNo = (contactNo, done) => {
-    userModel.findOne({contactNo : contactNo}, (err,user) => {
+    userModel.find({contact : contactNo}, (err,user) => {
+
         if(err) {
             return done(err);
-        } else if(!user) {
+        } else if(user.length==0) {
             let err = new Error('No user found!');
             return done(err);
         } else {

@@ -39,7 +39,7 @@ router.post('/signin', (req, res) => {
 router.post('/register', (req, res) => {
     console.log(req.body);
     if(req.body && req.body.userEmail && req.body.password && req.body.contact && req.body.userName) {
-        userController.findUserByContactNo(req.body.contactNo, (err,result) => {
+        userController.findUserByContactNo(req.body.contact, (err,result) => {
             if(err){
                 userController.findUserByEmail(req.body.userEmail, (err, result)=>{
                     if(err){
@@ -118,7 +118,7 @@ router.post('/findUserByContactNo', (req,res) => {
     let contactNo = req.body.contactNo;
     userController.findUserByContactNo(contactNo, (err,result) => {
         if(err){
-            res.status(500).json(err);
+            res.status(500).send(err);
         }else{
             res.status(200).json(result);
         }
