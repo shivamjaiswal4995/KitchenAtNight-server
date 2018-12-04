@@ -15,14 +15,13 @@ router.get('/', isAuthenticated, (req,res) => {
 });
 
 //as we click Place Order button, this would be called.
-router.post('/addOrder', isAuthenticated, (req,res) => {
+router.post('/addOrder'/*, isAuthenticated*/, (req,res) => {
     
     let orderObj = {
         
         userId: req.body.userId,
+        userName: req.body.userName,
         items: req.body.items,//with items quantity of each item is required...
-        state_Of_order: req.body.state_Of_order,
-        orderedOn: req.body.orderedOn,
         offerApplied: req.body.offerApplied,
         referralCode: req.body.referralCode,
         totalCost: req.body.totalCost,

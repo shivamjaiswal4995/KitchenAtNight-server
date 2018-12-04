@@ -7,9 +7,9 @@ const addOrder = (orderObj,done) => {
 
         orderId: uuidv4(),
         userId: orderObj.userId,
-        items: orderObj.items,//with items quantity of each item is required..
-        state_Of_order: orderObj.state_Of_order,
-        orderedOn: orderObj.orderedOn,
+        userName: orderObj.userName,
+        items: orderObj.items,//with items quantity of each item is required.
+        offerApplied: orderObj.offerApplied,
         totalCost: orderObj.totalCost,
         discount: orderObj.discount,
         tax: orderObj.tax,
