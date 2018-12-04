@@ -8,8 +8,6 @@ const userSchema = new mongoose.Schema({
     password: {type: String, required: true},
     contact: {type: Number, required: true},
     isAdmin: {type: Boolean, required : true, default: false},
-    addresses: [{}],
-    orders: [{}],
     cart : [{}],
     referralCode : {type: String, required: true},
     referrralCouponCount : {type : Number, required : true , default : 0}
