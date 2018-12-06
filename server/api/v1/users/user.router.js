@@ -37,7 +37,7 @@ router.post('/signin', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    console.log(req.body);
+    
     if(req.body && req.body.userEmail && req.body.password && req.body.contact && req.body.userName) {
         userController.findUserByContactNo(req.body.contact, (err,result) => {
             if(err){

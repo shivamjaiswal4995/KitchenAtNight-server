@@ -6,32 +6,32 @@ const addOffer = (offerObj, done) => {
     let newOffer = new offerModel({
 
         offerId: uuidv4(),
-        userId: offerObj.userId,
         offerName: offerObj.offerName,
         description: offerObj.description,
-        category: offerObj.category
+        category: offerObj.category,
+        value: offerObj.value,
+        maximumDiscount: offerObj.maximumDiscount,
+        minimumAmount: offerObj.minimumAmount
     })
-
     newOffer.save( (err, savedOffer) =>{
 
         if(err){
             return done(err);
         }
         else{
-            return done(null, savedOffer);//why are we returning savedOffer?
+            return done(null, savedOffer);
         }
 
     })
 };
 
-const getAllOffers = (done) => { //this method would be called by clicking on a button, how to write router for this?
+const getAllOffers = (done) => {
 
     offerModel.find({}, (err, offers) => {
         if(err){
             return done(err);
         }
         else {
-            console.log(offers);
             return done(null, offers);
         }
     })
@@ -39,7 +39,7 @@ const getAllOffers = (done) => { //this method would be called by clicking on a 
 
 const removeOffer = (offerId, done) => {
 
-    offerModel.findOneandRemove({offerId : offerId}, (err, offer) =>{
+    offerModel.findOneAndDelete({offerId : offerId}, (err, offer) =>{
         if(err){
             return done(err);
         }
@@ -51,7 +51,7 @@ const removeOffer = (offerId, done) => {
             return done(errObj);
         }
         else{
-            return done(null, item);
+            return done(null, offer);
         }
     })
 };
@@ -61,4 +61,3 @@ module.exports = {
     getAllOffers,
     removeOffer
 }
-//apart from getAllOffer, remove offer and addoOffer will be accessed by admin.

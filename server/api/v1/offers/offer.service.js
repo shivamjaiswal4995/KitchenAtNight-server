@@ -5,8 +5,8 @@ const addOffer = (offerObj, done) => {
     offerDAO.addOffer(offerObj, done);
 }
 
-const deleteOffer = (offerId, done) => {
-    offerDAO.deleteOffer(offerId, done);
+const removeOffer = (offerId, done) => {
+    offerDAO.removeOffer(offerId, done);
 }
 
 const getAllOffers = (done) => {
@@ -16,6 +16,6 @@ const getAllOffers = (done) => {
 module.exports = {
 
     addOffer,
-    deleteOffer,
+    removeOffer,
     getAllOffers
 }

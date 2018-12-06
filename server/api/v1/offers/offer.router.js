@@ -8,41 +8,39 @@ router.get('/allOffer', (req,res) => {
             res.status(500).send(err);
         }
         else{
-            console.log("getAllOffers of offercontroller success");
             res.status(200).json(offers);
         }
     })
 });
-//this method to be accessed only by admin...using scope..**
+
 router.post('/addOffer', /*isAuthenticated,*/ (req,res) => {
 
     let offerObj = {
 
-        offerName: req.body.offerName,
-        //userId: req.body.userId, //using for referal code... when some1 logging using referral codeof other person
-        //an offer object will be created with userId of person whose referral code was used. 
+        offerName: req.body.offerName, 
         description: req.body.description,
         category: req.body.category,
+        value: req.body.value,
+        maximumDiscount: req.body.maximumDiscount,
+        minimumAmount: req.body.minimumAmount
     
     }
-
     offerController.addOffer(offerObj, (err, savedOffer) =>{
         if(err){
             return res.status(500).send(err);
         }
         else{
-            return res.status(200).send(savedOffer);//what is use of sending saved order. Ans- as it will be displayed 
-            //in offer section without refreshing the page.
+            return res.status(200).send(savedOffer);
         }
     })
 });
 
 
-router.delete('/:id', isAuthenticated, (req,res) => {
+router.delete('/removeOffer'/*, isAuthenticated*/, (req,res) => {
 
-    let offerId = req.params.id;
+    let offerId = req.body.id;
 
-    offerController.deleteItem(offerId, (err, deletedOffer) => {
+    offerController.removeOffer(offerId, (err, deletedOffer) => {
         if(err){
             return res.status(500).send(err);
         }
@@ -52,8 +50,4 @@ router.delete('/:id', isAuthenticated, (req,res) => {
     })
 
 });
-//while using isAuthenticated for admin, do we have to write a new block of code for verifying token or not?
-
-
-//except from getting all the items, all methods in offer dao should be accessed by admin only. how to ensure hat?
 module.exports = router;
