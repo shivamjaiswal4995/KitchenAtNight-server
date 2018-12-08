@@ -16,25 +16,31 @@ const addUser = (userObj, done) => {
         userEmail: userObj.userEmail,
         password: hashedPassword,
         contact: userObj.contact,
-        referralCode : referralCode
+        referralCode: referralCode
     });
     newUser.save((err, savedUser) => {
-        if(err) {
+        if (err) {
             return done(err);
         } else {
             // generating token
             let payload = {
                 userName: savedUser.userName,
+                referralCode: savedUser.referralCode,
+                contact: savedUser.contact,
+                cart: savedUser.cart,
+                userEmail: savedUser.userEmail,
+                referralCouponCount: savedUser.referralCouponCount,
                 userId: savedUser.userId
             }
             signToken(payload, config.secret, 43200, done);
+
         }
     });
 };
 
 const addAdmin = (adminObj, done) => {
     let hashedPassword = bcrypt.hashSync(adminObj.password);
-    
+
     let newUser = new userModel({
         userId: uuidv4(),
         userName: userObj.userName,
@@ -42,11 +48,11 @@ const addAdmin = (adminObj, done) => {
         password: hashedPassword,
         contact: userObj.contact,
         isAdmin: true,
-        
+
     });
     console.log(newUser);
     newUser.save((err, savedUser) => {
-        if(err) {
+        if (err) {
             console.log("error occured at usr dao");
             return done(err);
         } else {
@@ -56,15 +62,16 @@ const addAdmin = (adminObj, done) => {
                 userId: savedUser.userId
             }
             signToken(payload, config.secret, 43200, done);
+
         }
     });
 };
 
 const findUser = (userObj, done) => {
-    userModel.findOne({ userEmail: userObj.userEmail}, (err, user) => {
-        if(err) {
+    userModel.findOne({ userEmail: userObj.userEmail }, (err, user) => {
+        if (err) {
             return done(err);
-        } else if(!user) {
+        } else if (!user) {
             let errObj = {
                 auth: false,
                 token: null,
@@ -73,7 +80,7 @@ const findUser = (userObj, done) => {
             return done(errObj);
         } else {
             const validPassword = bcrypt.compareSync(userObj.password, user.password);
-            if(!validPassword) {
+            if (!validPassword) {
                 let errObj = {
                     auth: false,
                     token: null,
@@ -83,7 +90,12 @@ const findUser = (userObj, done) => {
             } else {
                 let payload = {
                     userName: user.userName,
-                    userId: user.userId
+                    userId: user.userId,
+                    referralCode: user.referralCode,
+                    contact: user.contact,
+                    cart: user.cart,
+                    userEmail: user.userEmail,
+                    referralCouponCount: user.referralCouponCount
                 };
                 signToken(payload, config.secret, 43200, done);
             }
@@ -91,23 +103,22 @@ const findUser = (userObj, done) => {
     });
 }
 
-const userProfile = (userId, done) => {
-    // console.log(`user id is ${userId}`);
-    userModel.findOne({userId: userId}, {password: 0}, (err, user) => {
-        if(err) {
-            return done(err);
-        } else if(!user) {
+const userProfile = (userEmail) => {
+    userModel.findOne({ userEmail: userEmail }, { password: 0 }, (err, user) => {
+        if (err) {
+            return err;
+        } else if (!user) {
             let err = new Error('No user found!');
-            return done(err);
+            return err;
         } else {
-            return done(null, user);
+            return user;
         }
     });
 }
 
 const getAllUsers = (done) => {
-    userModel.find({}, {password: 0}, (err, users) => {
-        if(err) {
+    userModel.find({}, { password: 0 }, (err, users) => {
+        if (err) {
             return done(err);
         } else {
             return done(null, users);
@@ -116,10 +127,10 @@ const getAllUsers = (done) => {
 };
 
 const findUserByEmail = (userEmail, done) => {
-    userModel.find({userEmail : userEmail}, (err,user) => {
-        if(err) {
+    userModel.find({ userEmail: userEmail }, (err, user) => {
+        if (err) {
             return done(err);
-        } else if(user.length==0) {
+        } else if (user.length == 0) {
             let err = new Error('No user found!');
             return done(err);
         } else {
@@ -129,11 +140,11 @@ const findUserByEmail = (userEmail, done) => {
 }
 
 const findUserByContactNo = (contactNo, done) => {
-    userModel.find({contact : contactNo}, (err,user) => {
+    userModel.find({ contact: contactNo }, (err, user) => {
 
-        if(err) {
+        if (err) {
             return done(err);
-        } else if(user.length==0) {
+        } else if (user.length == 0) {
             let err = new Error('No user found!');
             return done(err);
         } else {
@@ -142,17 +153,17 @@ const findUserByContactNo = (contactNo, done) => {
     });
 }
 
-const increaseReferralCouponCount = (referralCode) =>{
+const increaseReferralCouponCount = (referralCode) => {
     userModel.findOneAndUpdate(
-        {referralCode: referralCode},
-        { $inc : { "referrralCouponCount" : 1 } }
-        )
+        { referralCode: referralCode },
+        { $inc: { "referrralCouponCount": 1 } }
+    )
 }
 
 const decreaseReferralCouponCount = (userId) => {
     userModel.findOneAndUpdate(
-        {referralCode: referralCode},
-        {$inc : {"referralCouponCount" : 1}}
+        { referralCode: referralCode },
+        { $inc: { "referralCouponCount": 1 } }
     )
 }
 //why are we using semicolon here and not in userProfile?

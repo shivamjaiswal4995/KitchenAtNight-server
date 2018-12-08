@@ -34,6 +34,7 @@ router.post('/signin', (req, res) => {
     } else {
         return res.status(401).send('Invalid credentials!');
     }
+    
 });
 
 router.post('/register', (req, res) => {
@@ -92,9 +93,9 @@ router.post('/register/addAdmin', (req, res) => {
     }
 });
 
-router.get('/profile', isAuthenticated, (req, res) => {
-    let userId = req.userId;
-    userController.userProfile(userId, (err, result) => {
+router.get('/profile'/*, isAuthenticated*/, (req, res) => {
+    let userEmail = req.body.userEmail;
+    userController.userProfile(userEmail, (err, result) => {
         if(err) {
             res.status(500).json(err);
         } else {

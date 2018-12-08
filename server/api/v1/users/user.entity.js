@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     isAdmin: {type: Boolean, required : true, default: false},
     cart : [{}],
     referralCode : {type: String, required: true},
-    referrralCouponCount : {type : Number, required : true , default : 0}
+    referralCouponCount : {type : Number, required : true , default : 0}
 });
 
 userSchema.index({userId: 1, userName: 1, userEmail: 1}, {unique: true});
