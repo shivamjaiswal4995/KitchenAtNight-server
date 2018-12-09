@@ -3,7 +3,7 @@ const orderController = require('./order.controller');
 const isAuthenticated = require('../auth/authController');
 
 //this method will be accessed by admin only
-router.get('/', isAuthenticated, (req,res) => {
+router.get('/', /*isAuthenticated,*/ (req,res) => {
     orderController.getAllOrders((err, orders)=> {
         if(err){
             return res.status(500).send(err);
