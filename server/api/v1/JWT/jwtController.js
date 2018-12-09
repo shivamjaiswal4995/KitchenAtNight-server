@@ -10,7 +10,7 @@ const signToken = (payload, secret, expireIn, done) => {
         } else {
             const response = {
                 userName: payload.userName,
-
+                userId : payload.userId,
                 referralCode: payload.referralCode,
                 contact: payload.contact,
                 cart: payload.cart,
