@@ -160,10 +160,10 @@ const increaseReferralCouponCount = (referralCode) => {
     )
 }
 
-const decreaseReferralCouponCount = (userId) => {
+const decreaseReferralCouponCount = (referralCode) => {
     userModel.findOneAndUpdate(
         { referralCode: referralCode },
-        { $inc: { "referralCouponCount": 1 } }
+        { $inc: { "referralCouponCount": -1 } }
     )
 }
 //why are we using semicolon here and not in userProfile?

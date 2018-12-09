@@ -40,9 +40,10 @@ router.post('/addOrder'/*, isAuthenticated*/, (req,res) => {
     })
 });
 
-router.get('/previousOrder', /*isAuthenticated,*/ (req,res) => {
+router.post('/previousOrder', /*isAuthenticated,*/ (req,res) => {
 
     let userId = req.body.userId;
+    console.log(`router ${req.body.userId}`);
 //here we are not mentoning done in arguments?
     orderController.findPreviousOrders(userId, (err,orders) => {
         if(err){
@@ -57,19 +58,40 @@ router.get('/previousOrder', /*isAuthenticated,*/ (req,res) => {
 router.put('/cancelled', (req,res) => {
 
     let orderId = req.body.orderId;
-    orderController.changeStateOfOrderToCancelled(orderId);
+    orderController.changeStateOfOrderToCancelled(orderId, (err,updatedOrder) => {
+        if(err){
+            return res.status(500).send(err);
+        }
+        else{
+            return res.status(200).json(updatedOrder);
+        }
+    })
 });
 
 router.put('/delivered', (req,res) => {
 
     let orderId = req.body.orderId;
-    orderController.changeStateOfOrderToDelivered(orderId);
+    orderController.changeStateOfOrderToDelivered(orderId,(err,updatedOrder) => {
+        if(err){
+            return res.status(500).send(err);
+        }
+        else{
+            return res.status(200).json(updatedOrder);
+        }
+    })
 });
 
 router.put('/dispatched', (req,res) => {
 
     let orderId = req.body.orderId;
-    orderController.changeStateOfOrderToDispatched(orderId);
+    orderController.changeStateOfOrderToDispatched(orderId, (err,updatedOrder) => {
+        if(err){
+            return res.status(500).send(err);
+        }
+        else{
+            return res.status(200).json(updatedOrder);
+        }
+    })
 });
 
 module.exports = router;

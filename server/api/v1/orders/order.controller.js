@@ -12,16 +12,16 @@ const getAllOrders = (done) => {
     orderService.getAllOrders(done);
 }
 
-const changeStateOfOrderToDispatched = (orderId) => {
-    orderService.changeStateOforderToDispatched(orderId);
+const changeStateOfOrderToDispatched = (orderId, done) => {
+    orderService.changeStateOfOrderToDispatched(orderId, done);
 }
 
-const changeStateOfOrderToCancelled = (orderId) => {
-    orderService.changeStateOforderToCancelled(orderId);
+const changeStateOfOrderToCancelled = (orderId, done) => {
+    orderService.changeStateOfOrderToCancelled(orderId, done);
 }
 
-const changeStateOfOrderToDelivered = (orderId) => {
-    orderService.changeStateOforderToDelivered(orderId);
+const changeStateOfOrderToDelivered = (orderId, done) => {
+    orderService.changeStateOfOrderToDelivered(orderId, done);
 }
 module.exports = {
     addOrder,

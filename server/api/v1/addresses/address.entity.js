@@ -6,7 +6,6 @@ const addressSchema = new mongoose.Schema({
     userId : {type: String, required: true},
     houseNo : {type: String, required: true},
     landmark : {type: String, required: true},
-    type : {type: String, required: true},
     area :{type: String, required: true},
     city : {type: String, default: 'Indore'},
     state : {type: String, default: 'Madhya Pradesh'},

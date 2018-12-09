@@ -12,16 +12,16 @@ const getAllOrders = (done) => {
     orderDao.getAllOrders(done);
 }
 
-const changeStateOfOrderToDispatched = (orderId) => {
-    orderDao.changeStateOforderToDispatched(orderId);
+const changeStateOfOrderToDispatched = (orderId, done) => {
+    orderDao.changeStateOfOrderToDispatched(orderId, done);
 }
 
-const changeStateOfOrderToCancelled = (orderId) => {
-    orderDao.changeStateOforderToCancelled(orderId);
+const changeStateOfOrderToCancelled = (orderId, done) => {
+    orderDao.changeStateofOrderToCancelled(orderId, done);
 }
 
-const changeStateOfOrderToDelivered = (orderId) => {
-    orderDao.changeStateOforderToDelivered(orderId);
+const changeStateOfOrderToDelivered = (orderId, done) => {
+    orderDao.changeStateofOrderToDelivered(orderId, done);
 }
 module.exports = {
     addOrder,

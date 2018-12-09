@@ -27,15 +27,13 @@ router.get('/byuser',isAuthenticated, (req,res) => {
         }
     })
 });
-router.post('/addaddress', /*isAuthenticated,*/ (req,res) => {
+router.post('/addAddress', /*isAuthenticated,*/ (req,res) => {
 
     let addressObj = {
     
         userId : req.userId,
-        //req.userId is described in isAuthenticated...
         houseNo : req.body.houseNo,
         landmark : req.body.landmark,
-        type : req.body.type,
         area : req.body.area,
        
     }

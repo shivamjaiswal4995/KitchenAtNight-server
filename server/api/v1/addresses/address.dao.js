@@ -13,7 +13,6 @@ const addAddress = (addressObj,done) => {
         userId: addressObj.userId,
         houseNo : addressObj.houseNo,
         landmark : addressObj.landmark,
-        type : addressObj.type,
         area : addressObj.area,
         
 
