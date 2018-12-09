@@ -2,7 +2,6 @@ const orderModel = require('./order.entity');
 const uuidv4 = require('uuid/v4');
 
 const addOrder = (orderObj,done) => {
-
     let newOrder = new orderModel({
 
         orderId: uuidv4(),

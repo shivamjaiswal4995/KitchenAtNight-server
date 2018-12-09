@@ -29,7 +29,7 @@ router.post('/addOrder'/*, isAuthenticated*/, (req,res) => {
         tax: req.body.tax,
         payabale_Amount: req.body.payabale_Amount
     }
-
+    
     orderController.addOrder(orderObj, (err, savedOrder) => {
         if(err){
             return res.status(500).send(err);
