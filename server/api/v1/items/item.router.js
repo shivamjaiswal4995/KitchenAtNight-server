@@ -8,7 +8,7 @@ router.get('/', (req,res) => {
             res.status(500).send(err);
         }
         else{
-            res.status(200).json(items);
+            res.status(200).json(items);z
         }
     });
 });
