@@ -17,7 +17,8 @@ const getAllItems = (done) => {
 const getAllItemsByCategory = (done) => {
     itemModel.aggregate(
         [
-            { $group : {_id :{category:"$category"}, items: {$push : "$$ROOT"}}}
+            { $group : {_id :{category:"$category", sequenceNo: "$categorySequenceNo"}, items: {$push : "$$ROOT"}}},
+            {$sort : {"_id.sequenceNo": 1}}
         ]
     , (err,items) => {
         if(err){
