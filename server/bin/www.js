@@ -1,5 +1,5 @@
 const server = require('../index.js');
-const io = require('socket.io')(server);
+//const io = require('socket.io')(server);
 // the port has to come from config file (or) as a env variable
 const port = (process.env.PORT || 3000);
 

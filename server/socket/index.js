@@ -1,4 +1,4 @@
-const server = require('../index');
-const io = require('socket.io')(server);
+// const server = require('../index');
+// const io = require('socket.io')(server);
 
-module.exports = io;
+// module.exports = io;
