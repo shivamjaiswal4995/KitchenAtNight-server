@@ -12,6 +12,18 @@ const getAllOrders = (done) => {
     orderDao.getAllOrders(done);
 }
 
+const getInTheKitchenOrders = (done) => {
+    orderDao.getInTheKitchenOrders(done);
+}
+
+const getCancelledOrders = (done) => {
+    orderDao.getCancelledOrders(done);
+}
+
+const getDispatchedOrders = (done) => {
+    orderDao.getDispatchedOrders(done);
+}
+
 const changeStateOfOrderToDispatched = (orderId, done) => {
     orderDao.changeStateOfOrderToDispatched(orderId, done);
 }
@@ -27,6 +39,9 @@ module.exports = {
     addOrder,
     findPreviousOrders,
     getAllOrders,
+    getInTheKitchenOrders,
+    getCancelledOrders,
+    getDispatchedOrders,
     changeStateOfOrderToCancelled,
     changeStateOfOrderToDelivered,
     changeStateOfOrderToDispatched

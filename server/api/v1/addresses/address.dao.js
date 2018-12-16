@@ -85,7 +85,6 @@ const deleteAddress = (addressId) => {
 };
 
 const getAddressesByUserId = (userId,done) =>{
-    console.log("getAddressesByUserId in address dao");
     addressModel.find( {userId: userId}, (err, addresses) => {
         if(err){
             return done(err);

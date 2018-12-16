@@ -16,7 +16,7 @@ const updateAddress = (addressId, updateDetails, done) => {
     addressService.updateAddress(addressId, updateDetails, done);
 }
 
-const getAddressesByUserId = (userId) => {
+const getAddressesByUserId = (userId,done) => {
     addressService.getAddressesByUserId(userId, done);
 }
 

@@ -14,6 +14,39 @@ router.get('/', /*isAuthenticated,*/ (req,res) => {
     })
 });
 
+router.get('/inTheKitchenOrders', /*isAuthenticated,*/(req,res) => {
+    orderController.getInTheKitchenOrders((err,orders) => {
+        if(err){
+            return res.status(500).send(err);
+        }
+        else{
+            return res.status(200).json(orders);
+        }
+    })
+});
+
+router.get('/cancelledOrders', /*isAuthenticated,*/(req,res) => {
+    orderController.getCancelledOrders((err,orders) => {
+        if(err){
+            return res.status(500).send(err);
+        }
+        else{
+            return res.status(200).json(orders);
+        }
+    })
+});
+
+router.get('/dispatchedOrders', /*isAuthenticated,*/(req,res) => {
+    orderController.getDispatchedOrders((err,orders) => {
+        if(err){
+            return res.status(500).send(err);
+        }
+        else{
+            return res.status(200).json(orders);
+        }
+    })
+});
+
 //as we click Place Order button, this would be called.
 router.post('/addOrder'/*, isAuthenticated*/, (req,res) => {
     
@@ -21,6 +54,7 @@ router.post('/addOrder'/*, isAuthenticated*/, (req,res) => {
         
         userId: req.body.userId,
         userName: req.body.userName,
+        contactNo: req.body.contactNo,
         items: req.body.items,//with items quantity of each item is required...
         offerApplied: req.body.offerApplied,
         referralCode: req.body.referralCode,

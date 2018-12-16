@@ -13,10 +13,9 @@ router.get('/', (req,res) => {
     })
 });
  
-router.get('/byuser',isAuthenticated, (req,res) => {
-    let userId = req.params.userId;
-    console.log("addressRoter reached while getting addresses by user");
-    addressController.getAddressesByUserId(req.userId, (err,addresses) => {
+router.post('/byUser',/*isAuthenticated,*/ (req,res) => {
+    let userId = req.body.userId;
+    addressController.getAddressesByUserId(userId, (err,addresses) => {
         
         if(err){
             res.status(500).send(err);
@@ -31,7 +30,7 @@ router.post('/addAddress', /*isAuthenticated,*/ (req,res) => {
 
     let addressObj = {
     
-        userId : req.userId,
+        userId : req.body.userId,
         houseNo : req.body.houseNo,
         landmark : req.body.landmark,
         area : req.body.area,
@@ -47,14 +46,14 @@ router.post('/addAddress', /*isAuthenticated,*/ (req,res) => {
     })
 });
 
-router.put('/:id', isAuthenticated, (req, res) => {
+router.put('/updateAddress', /*isAuthenticated,*/ (req, res) => {
     //there would be a button in admin website to delete or update items. if admin clicks on updateItems,
     //a new page will be opened with spaces to fill itemId and details of properties to be cahnged.
     //if admin wants to delete an item, a space would be providedd to fill itemId.
 
-    let addressId = req.params.id;
+    let addressId = req.body.id;
     let updateDetails = {};
-    if(req.body.huseNo){
+    if(req.body.houseNo){
         updateDetails.houseNo = req.body.houseNo;
     }
     if(req.body.area){
@@ -63,15 +62,11 @@ router.put('/:id', isAuthenticated, (req, res) => {
     if(req.body.landmark){
         updateDetails.landmark = req.body.landmark;
     }
-    if(req.body.type){
-        updateDetails.type = req.body.type;
-    }
-
 //upDateDetails must come embedded in req object?
 //TODO
 //whileediting note in Keep, userId and NoteId is both provided in so that while findOneAndUpdate method in Dao, both can be 
 //provided in condition. not necessay as it can be found only on basis of addressId...
-    addressController.updateItemDetails( addressId, updateDetails, (err, updatedAddress) => {
+    addressController.updateAddress( addressId, updateDetails, (err, updatedAddress) => {
         if(err) {
             return res.status(500).send(err);
         } else {
@@ -80,7 +75,7 @@ router.put('/:id', isAuthenticated, (req, res) => {
     })
 });
 
-router.delete('/:id', isAuthenticated, (req,res) => {
+router.delete('/:id', /*isAuthenticated,*/ (req,res) => {
 
     let addressId = req.params.id;
 

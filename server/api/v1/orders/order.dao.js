@@ -7,6 +7,7 @@ const addOrder = (orderObj,done) => {
         orderId: uuidv4(),
         userId: orderObj.userId,
         userName: orderObj.userName,
+        contactNo: orderObj.contactNo,
         items: orderObj.items,//with items quantity of each item is required.
         offerApplied: orderObj.offerApplied,
         totalCost: orderObj.totalCost,
@@ -53,6 +54,40 @@ const getAllOrders = (done) => {
             return done(err);
         }
         else{
+            return done(null, orders);
+        }
+    })
+};
+
+const getInTheKitchenOrders = (done) => {
+
+    orderModel.find({stateOfOrder : "In the Kitchen"}, (err,orders)=>{
+        if(err){
+            return done(err);
+        }
+        else {
+            return done(null,orders);
+        }
+    })
+};
+
+const getCancelledOrders =(done) => {
+    orderModel.find({stateOfOrder : "Cancelled"}, (err,orders) => {
+        if(err){
+            return done(err);
+        }
+        else {
+            return done(null, orders);
+        }
+    })
+};
+
+const getDispatchedOrders = (done) => {
+    orderModel.find({stateOfOrder : "Dispatched"}, (err, orders) => {
+        if(err){
+            return done(err);
+        }
+        else {
             return done(null, orders);
         }
     })
@@ -107,6 +142,9 @@ module.exports = {
     addOrder,
     findPreviousOrders,
     getAllOrders,
+    getInTheKitchenOrders,
+    getCancelledOrders,
+    getDispatchedOrders,
     changeStateofOrderToCancelled,
     changeStateofOrderToDelivered,
     changeStateOfOrderToDispatched

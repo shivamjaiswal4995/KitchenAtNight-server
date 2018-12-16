@@ -5,6 +5,7 @@ const orderSchema = new mongoose.Schema({
     orderId: {type: String, required: true},
     userId: {type: String, required: true},
     userName: {type: String, required: true},
+    contactNo: {type: Number, required: true},
     items: [{}],//with items quantity of each item is required.
     stateOfOrder: {type: String, required: true, default: "In the Kitchen"},
     orderedOn: {type: Date, default: Date.now},
