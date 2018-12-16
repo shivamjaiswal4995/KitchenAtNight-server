@@ -5,6 +5,7 @@ const itemSchema = new mongoose.Schema({
     itemId: {type: String, required: true},
     itemName: {type: String, required: true},
     category: {type: String, required: true},
+    categorySequenceNo : {type: Number, required: true},
     price: {type: Number, required: true},
     type: {type: String, required: true},
     itemUrl: {type: String, required: true}
