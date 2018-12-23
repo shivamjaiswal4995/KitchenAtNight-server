@@ -7,8 +7,7 @@ const itemSchema = new mongoose.Schema({
     category: {type: String, required: true},
     categorySequenceNo : {type: Number, required: true},
     price: {type: Number, required: true},
-    type: {type: String, required: true},
-    itemUrl: {type: String, required: true}
+    type: {type: String, required: true}
 
 });
 //this database should be accessed directly by admin so that items can be added and removed easily.

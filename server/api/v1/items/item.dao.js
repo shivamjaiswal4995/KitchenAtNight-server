@@ -17,8 +17,8 @@ const getAllItems = (done) => {
 const getAllItemsByCategory = (done) => {
     itemModel.aggregate(
         [
-            { $group : {_id :{category:"$category", sequenceNo: "$categorySequenceNo"}, items: {$push : "$$ROOT"}}},
-            {$sort : {"_id.sequenceNo": 1}}
+            { $group : {_id :{category:"$category", categorySequenceNo: "$categorySequenceNo"}, items: {$push : "$$ROOT"}}},
+            {$sort : {"_id.categorySequenceNo": 1}}
         ]
     , (err,items) => {
         if(err){
@@ -37,9 +37,9 @@ const addItem = (itemObject, done) => {
         itemId: uuidv4(),
         itemName: itemObject.itemName,
         category: itemObject.category,
+        categorySequenceNo : itemObject.categorySequenceNo,
         price: itemObject.price,
-        type: itemObject.type,
-        itemUrl: itemObject.itemUrl
+        type: itemObject.type
     }) 
 
     newItem.save((err,savedItem) => {
@@ -54,7 +54,7 @@ const addItem = (itemObject, done) => {
 
 const deleteItem = (itemId, done) => {
 
-    itemModel.findOneAndRemove({itemId: itemId}, (err,item) => {
+    itemModel.findOneAndRemove({_id: itemId}, (err,item) => {
         if(err){
             done(err);
         }
@@ -73,6 +73,7 @@ const deleteItem = (itemId, done) => {
 const updateItem = (itemId, updateDetails, done) => {
 
     let update = updateDetails;
+    console.log(update);
     itemModel.findOneAndUpdate({itemId: itemId}, 
     {$set: update},
     {new: true},//y are we using this?
@@ -94,10 +95,26 @@ const updateItem = (itemId, updateDetails, done) => {
     })
 };
 
+const updateNameFieldNameToItemname = (itemName, done) => {
+    console.log(itemName);
+    itemModel.findOneAndUpdate({name : itemName}, {$rename: {"name" : "itemName"}}, 
+    (err,items)=> {
+        if(err){
+            console.log("error occured");
+            return done(err);
+        } else {
+            console.log("no error");
+            console.log(items);
+            return done(null, items);
+        }
+    });
+}
+
 module.exports = {
     getAllItems,
     addItem,
     deleteItem,
     updateItem,
-    getAllItemsByCategory
+    getAllItemsByCategory,
+    updateNameFieldNameToItemname
 }

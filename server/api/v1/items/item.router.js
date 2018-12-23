@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const itemController = require('./item.controller');
+const itemDao = require('./item.dao');
 const isAuthenticated = require('../auth/authController');
 
 router.get('/', (req,res) => {
@@ -8,7 +9,7 @@ router.get('/', (req,res) => {
             res.status(500).send(err);
         }
         else{
-            res.status(200).json(items);z
+            res.status(200).json(items);
         }
     });
 });
@@ -25,13 +26,12 @@ router.get('/byCategory', (req,res) => {
 });
 
 router.post('/addItem',/* isAuthenticated,*/ (req,res) => {
-
     let itemObj = {
         itemName: req.body.itemName,
         category: req.body.category,
+        categorySequenceNo: req.body.categorySequenceNo,
         price: req.body.price,
-        type: req.body.type,
-        itemUrl: req.body.itemUrl
+        type: req.body.type
     }
     itemController.addItem(itemObj, (err, savedItem) =>{
         if(err){
@@ -43,15 +43,21 @@ router.post('/addItem',/* isAuthenticated,*/ (req,res) => {
     })
 });
 
-router.put('/:id', isAuthenticated, (req, res) => {
+router.put('/updateItem'/*, isAuthenticated*/, (req, res) => {
     //there would be a button in admin website to delete or update items. if admin clicks on updateItems,
     //a new page will be opened with spaces to fill itemId and details of properties to be cahnged.
     //if admin wants to delete an item, a space would be providedd to fill itemId.
 
-    let itemId = req.params.id;
-    let updateDetails = {};
+    let itemId = req.body.itemId;
+    let updateDetails = {
+        itemName : req.body.itemName,
+        category : req.body.category,
+        categorySequenceNo : req.body.categorySequenceNo,
+        price : req.body.price,
+        type : req.body.type
+    };
 //upDateDetails must come embedded in req object?
-    itemController.updateItemDetails( itemId, updateDetails, (err, updatedItem) => {
+    itemController.updateItem( itemId, updateDetails, (err, updatedItem) => {
         if(err) {
             return res.status(500).send(err);
         } else {
@@ -60,9 +66,9 @@ router.put('/:id', isAuthenticated, (req, res) => {
     })
 });
 
-router.delete('/:id', isAuthenticated, (req,res) => {
+router.delete('/deleteItem', /*isAuthenticated,*/ (req,res) => {
 
-    let itemId = req.params.id;
+    let itemId = req.body.itemId;
 
     itemController.deleteItem(itemId, (err, deletedItem) => {
         if(err){
@@ -74,6 +80,20 @@ router.delete('/:id', isAuthenticated, (req,res) => {
     })
 
 });
+
+router.put('/updateFielName', (req,res) => {
+    let itemName = req.body.itemName;
+    itemDao.updateNameFieldNameToItemname(itemName, (err, items) => {
+        if(err){
+            console.log("router error occureedd");
+            return res.status(500).send(err);
+        } 
+        else{
+            console.log("no errror router");
+            return res.status(200).json(items);
+        }
+    })
+})
 //while using isAuthenticated for admin, do we have to write a new block of code for verifying token or not?
 
 //in updating and deletinng items from database, what type of req should we use? get, post,put??
