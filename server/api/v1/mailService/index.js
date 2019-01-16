@@ -15,12 +15,12 @@ const sendConfirmationMail = (details) => {
     const orderId = details.orderId;
     const message= `<strong>Hello ${receiversName}</strong>, <br>Greetings to you.<br><br><p> We thought you'd like to know that your order with orderId ${orderId} has been confirmed,
     <br> and is in preparation phase in Kitchen.<br><br>We will love to improve your experience. Please provide feedback and suggestions.<br>
-    <br>Have a great meal and good time.<br><br>With Regards,<br>KitchenAtNightTeam<br>`;
+    <br>Have a great meal and good time.<br><br>With Regards,<br>BiteAtNightTeam<br>`;
 
     let mailOptions = {
         from: 'KitchenAtNight24.7@gmail.com',
         to: details.to,
-        subject: `<strong>Confirmed :</strong> Order with orderId ${orderId}`,
+        subject: `<strong>Order Confirmed :</strong> Order with orderId ${orderId}`,
         html: message
     };
 
@@ -37,16 +37,18 @@ const sendConfirmationMail = (details) => {
 }
 
 const sendDeliveryMail = (details) => {
-    const sendersName = details.sendersName;
     const receiversName = details.receiversName;
-    const title = details.title;
-    const message = `<strong>Dear ${receiversName}</strong>, <br>Greetings to you.<br><br><p> User ${sendersName} has shared a note titled <strong>${title}</strong> with you at KeeP Note Sharing Application. 
-    Please login and check it out.<br>No need to reply to this mail.<br><br><br>With Regards,<br>John Smith<br>KeeP Team `;
+    const orderId = details.orderId;
+    const message = `<strong>Dear ${receiversName}</strong>, <br>Greetings to you.<br><br>
+    <p> Your order with orderId ${orderId} has been delivered.<br><br>Please provide your valuable feedback in feedback section of app<br>
+    <br>We are dedicated towards enhancing your overall experience with BiteAtNight food delivery service.<br>
+    <br>Have a great meal and good time.<br>
+    <br><br>With Regards,<br>BiteAtNight Team`;
     
     let mailOptions = {
-        from: 'keep.application@gmail.com',
+        from: 'KitchenAtNight24.7@gmail.com',
         to: details.to,
-        subject: 'Note has been shared to you',
+        subject: `<strong>Order Delivered : </strong>Order with orderId ${orderId}`,
         html: message
     };
 
@@ -63,7 +65,7 @@ const sendDeliveryMail = (details) => {
 }
 
 const sendReferralMail = (details) => {
-    const receiversName = details.receiversName;
+    const receiversName = details.receiversName; /*receivers name is name of guy whose referral code have been used*/
     const referralCode = details.referralCode;
     const referralUsedBy = details.referralUsedBy;
     const message= `<strong>Hello ${receiversName}</strong>, <br>Wuhooo!!!<br><br>

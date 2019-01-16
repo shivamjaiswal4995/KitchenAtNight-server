@@ -49,6 +49,7 @@ router.put('/updateItem'/*, isAuthenticated*/, (req, res) => {
     //if admin wants to delete an item, a space would be providedd to fill itemId.
 
     let itemId = req.body.itemId;
+    console.log(req.body);
     let updateDetails = {
         itemName : req.body.itemName,
         category : req.body.category,
