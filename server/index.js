@@ -4,7 +4,8 @@ const path = require('path');
 const db = require('./db');
 const apiRouter = require('./api/v1');
 const bodyParser = require('body-parser');
-
+const http = require('http');
+const server = http.createServer(app);
 db.init();
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -27,4 +28,4 @@ app.get('*', (req, res) => {
 // let msg = `Have access to mongodb via MONGO_URL: ${process.env.MONGO_URL} `;
 // console.log(msg);
 
-module.exports = app;
+module.exports = server;
