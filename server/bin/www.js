@@ -13,7 +13,7 @@ io.on('connection', socket => {
 	
 	socket.on('signin', data => {
 		console.log("Data recieved in SIGNIN event ", data, socket.id);
-		socket.join(data.userEmail); 
+		socket.join(data); 
 	});
 
 	socket.on('signup', data => {
@@ -21,28 +21,55 @@ io.on('connection', socket => {
 		socket.join(data.userEmail);
 	});
 
-	socket.on('share', data => {
-		const email = data.receipient.split(',')[1].trim();
-		console.log('Data received on SHARE event', email, socket.id);
+	socket.on('order', data => {
+		const email = data.receipient;
+		//what if i have to send more than two admins..
+		console.log("Data received on order event", data, socket.id);
 		const response = {
-			title: data.title,
-			from: data.sender
+			orderId: data.orderId,
+			userName: data.userName,
+			orderedOn: data.orderedOn,
+			payable_amount: data.payable_amount,
+			message: data.message //message to be displayed in notification panel
+		}
+		if(io.sockets.adapter.rooms[email]){
+			io.sockets.in(email).emit('notify', response);
+		} else {
+			//add into notification database and share when user is active again.
+		}
+	});
+
+	socket.on('offer', data => {
+		//const email = data.receipient; I have to send to all the users except admins.
+		//i can send to admins also, as i have only two admins.
+		//what if i have to send more than two admins..
+		console.log("Data received on offer event", data, socket.id);
+		const response = {
+			offerName: data.offerName,
+			message: data.message //in place of order description, i will send some catchy message.
+		}
+		//i want to send notification to all the users except admin who has sent it
+		if(io.sockets.adapter.rooms[email]){
+			io.sockets.in(email).emit('notify', response);
+		} else {
+			//add into notification database and share when user is active again.
+		}
+	});
+
+	socket.on('referral', data => {
+		const email = data.receipient;//to the user whose referral is used.
+		console.log('Data received on referral event', email, socket.id);
+		const response = {
+			message: data.message,
+			referralUsedBy : data.referralUsedBy
+			//i want to notify the user the name of friend who have used his referral
 		}
 		
 		if(io.sockets.adapter.rooms[email]) {
 			// console.log('room exists');
 			io.sockets.in(email).emit('notify', response);
 		} else {
-			let obj = {
-				content: `Note titled "${data.title}" has been shared to you by user ${data.sender}`
-			}
-			notificationController.addNotification(data.idOfSharedUser, obj, (err, savedNotification) => {
-				if(err) {
-					logger.error('error occurred while saving notification: ', err);
-				} else {
-					console.log('Notification saved: ', savedNotification);
-				}
-			});
+		//add into notification database and share when user is active again.
 			// console.log('room does not exist!');
 		}
 	});
