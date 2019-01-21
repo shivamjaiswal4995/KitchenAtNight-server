@@ -13,7 +13,9 @@ io.on('connection', socket => {
 	
 	socket.on('signin', data => {
 		console.log("Data recieved in SIGNIN event ", data, socket.id);
-		socket.join(data); 
+		socket.join(data);
+		let  message = "abc";
+		socket.emit('userjoinedthechat', data +"has joined socket");
 	});
 
 	socket.on('signup', data => {
