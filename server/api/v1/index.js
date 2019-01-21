@@ -5,13 +5,13 @@ const ordersRouter = require('./orders');
 const offersRouter = require('./offers');
 const itemsRouter = require('./items');
 const addressesRouter = require('./addresses');
-const mailRouter = require('./mailService');
+//const mailRouter = require('./mailService');
 
 router.use('/users', usersRouter);
 router.use('/orders', ordersRouter);
 router.use('/offers', offersRouter);
 router.use('/items', itemsRouter);
 router.use('/addresses', addressesRouter);
-router.use('/mailService',mailRouter);
+//router.use('/mailService',mailRouter);
 
 module.exports = router;
