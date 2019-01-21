@@ -141,7 +141,7 @@ router.post('verificationMail', (req,res) => {
         });
     }
     
-});
+);
 
 module.exports = {
     sendDeliveryMail,
