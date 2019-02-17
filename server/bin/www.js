@@ -11,17 +11,33 @@ io.on('connection', socket => {
 	// console.log("Socket: ", socket);
 	console.log(`Socket ${socket.id} added`);
 	
+	//now every user has its own room through signin and signup event and a particular
+	//room dedicated to just user and admin through user and admin event
+	//respectively.
 	socket.on('signin', data => {
+		//data is userId which will be sentt from client side.
 		console.log("Data recieved in SIGNIN event ", data, socket.id);
 		socket.join(data);
 		let  message = "abc";
-		socket.emit('userjoinedthechat', data +"has joined socket");
+		socket.emit('userjoinedthechat', "checking notification api");
 	});
 
 	socket.on('signup', data => {
+		//data i userId which wlll be sent from client-side.
 		console.log("Data recieved in SIGNUP event ", data, socket.id);
-		socket.join(data.userEmail);
+		socket.join(data);
+		socket.emit('userjoinedthechat', "checking notification api");
 	});
+
+	socket.on('admin', data => {
+		console.log("Data received in admin event", data, socket.id);
+		socket.join(data);
+	});
+
+	socket.on('user', data => {
+		console.log("Data received in user event", data, socket.id);
+		socket.join(data);
+	})
 
 	socket.on('order', data => {
 		const email = data.receipient;
@@ -35,7 +51,7 @@ io.on('connection', socket => {
 			message: data.message //message to be displayed in notification panel
 		}
 		if(io.sockets.adapter.rooms[email]){
-			io.sockets.in(email).emit('notify', response);
+			io.sockets.in(email).emit('notifyOrder', response);
 		} else {
 			//add into notification database and share when user is active again.
 		}
@@ -52,29 +68,31 @@ io.on('connection', socket => {
 		}
 		//i want to send notification to all the users except admin who has sent it
 		if(io.sockets.adapter.rooms[email]){
-			io.sockets.in(email).emit('notify', response);
+			io.sockets.in(email).emit('notifyOffer', response);
 		} else {
 			//add into notification database and share when user is active again.
 		}
 	});
 
 	socket.on('referral', data => {
-		const email = data.receipient;//to the user whose referral is used.
+		const userIdReferralOf = data.referralOf;//to the user whose referral is used.
 		console.log('Data received on referral event', email, socket.id);
 		const response = {
-			message: data.message,
-			referralUsedBy : data.referralUsedBy
+			referralUsedBy : data.referralUsedBy,
+			referralCode : data.referralCode,
+			message : `Your friend $referralUsedBy has used your referral code $referralCode. You have 
+			earned a new referral coupon BITEATNIGHT30. Keep sharing.`
 			//i want to notify the user the name of friend who have used his referral
 		}
 		
-		if(io.sockets.adapter.rooms[email]) {
+		if(io.sockets.adapter.rooms[userIdReferralOf]) {
 			// console.log('room exists');
-			io.sockets.in(email).emit('notify', response);
+			io.sockets.in(userIdReferralOf).emit('notifyReferral', response);
 		} else {
 		//add into notification database and share when user is active again.
 			// console.log('room does not exist!');
 		}
-	});
+	}); 
 
     socket.on('disconnect', () => {
 		console.log(`Deleting socket: ${socket.id}`);
